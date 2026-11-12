@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101010">
+  <title>OpenDB</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="tabbar">
+      <div class="bar-title"><span>|</span> OpenDB · SQLite <span>|</span></div>
+      <nav class="tabs" role="tablist" aria-label="OpenDB sections">
+        <button type="button" id="tab-main" role="tab" aria-selected="true" aria-controls="main-view" data-view="main">Main</button>
+        <button type="button" id="tab-sql" role="tab" aria-selected="false" aria-controls="sql-view" data-view="sql" tabindex="-1">SQL</button>
+        <button type="button" id="tab-help" role="tab" aria-selected="false" aria-controls="help-view" data-view="help" tabindex="-1">HELP</button>
+      </nav>
+      <span class="filename" id="filename">no file</span>
+    </header>
+
+    <main class="frame">
+      <section class="pane overview" role="tabpanel" id="main-view" aria-labelledby="tab-main">
+        <div class="overview-inner">
+          <header class="identity">
+            <h1>OpenDB</h1>
+          </header>
+          <fieldset class="box file-box">
+            <legend><span>|</span> Database <span>|</span></legend>
+            <dl>
+              <dt>Name:</dt><dd id="file-name">—</dd>
+              <dt>Format:</dt><dd id="file-kind">—</dd>
+              <dt>Size:</dt><dd id="file-size">—</dd>
+              <dt>Tables:</dt><dd id="file-tables">—</dd>
+              <dt>Session:</dt><dd id="file-state">—</dd>
+            </dl>
+          </fieldset>
+          <fieldset class="box command-box">
+            <legend><span>|</span> Commands <span>|</span></legend>
+            <table class="command-table">
+              <thead><tr><th scope="col">Command</th><th scope="col">Action</th></tr></thead>
+              <tbody>
+                <tr><td><button type="button" data-command=".open" disabled>.open</button></td><td>Open a local file</td></tr>
+                <tr><td><button type="button" data-command=".new" disabled>.new</button></td><td>Create an empty database</td></tr>
+                <tr><td><button type="button" data-command=".demo" disabled>.demo</button></td><td>Load a sample database</td></tr>
+                <tr><td><button type="button" data-command=".tables" disabled>.tables</button></td><td>List tables and views in SQL</td></tr>
+                <tr><td><button type="button" data-command=".save" disabled>.save</button></td><td>Download the working copy</td></tr>
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="pane sql" role="tabpanel" id="sql-view" aria-labelledby="tab-sql" hidden>
+        <div class="screen" id="screen" tabindex="0" aria-label="Console output">
+          <p class="intro" id="intro">Use .new, .open, or .demo to start. Type .help for the command list.</p>
+          <div id="log"></div>
+        </div>
+        <form id="form">
+          <label class="prompt" for="command">opendb&gt;</label>
+          <textarea id="command" rows="1" aria-label="SQL or OpenDB command" placeholder="Type SQL or .help" autocomplete="off" spellcheck="false" readonly></textarea>
+          <button id="run" type="submit" title="Run (Enter)" aria-label="Run command" disabled>[↵]</button>
+          <button id="stop" type="button" hidden>[Stop]</button>
+        </form>
+        <div class="status" id="status" role="status">Starting SQLite…</div>
+      </section>
+
+      <section class="pane" role="tabpanel" id="help-view" aria-labelledby="tab-help" tabindex="0" hidden>
+        <h2 class="panel-title">OpenDB Help</h2>
+        <pre id="help-output" class="help-text"></pre>
+      </section>
+
+      <footer class="keybar" aria-label="Keyboard shortcuts">
+        <div class="keys">
+          <button type="button" data-command=".open" disabled><span class="bracket">[</span><kbd>Ctrl+O</kbd><span class="arrow"> → </span>Open<span class="bracket">]</span></button>
+          <button type="button" data-command=".save" disabled><span class="bracket">[</span><kbd>Ctrl+S</kbd><span class="arrow"> → </span>Save copy<span class="bracket">]</span></button>
+          <span title="Use arrow keys when a tab has focus"><span class="bracket">[</span><kbd>←/→</kbd> Tabs<span class="bracket">]</span></span>
+          <button type="button" data-open-view="sql"><span class="bracket">[</span><kbd>/</kbd><span class="arrow"> → </span>SQL<span class="bracket">]</span></button>
+          <button type="button" data-open-view="help"><span class="bracket">[</span><kbd>?</kbd><span class="arrow"> → </span>Help<span class="bracket">]</span></button>
+        </div>
+      </footer>
+    </main>
+    <p>Created by Santiago. ;)</p>
+    <p class="startup-note" id="startup-note">Aparrently, you are running this as a FILE protocol, check <a href='https://github.com/SantiagoCalebe/OpenDB/blob/main/README.md'>README</a> for instructions.</p>
+  </div>
+  <input type="file" id="input" accept=".db,.sqlite,.sqlite3,.db3,.txt,application/vnd.sqlite3,text/plain" hidden>
+  <noscript>OpenDB needs JavaScript to run SQLite in this browser.</noscript>
+</body>
+</html>

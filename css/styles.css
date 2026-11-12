@@ -1,0 +1,223 @@
+@font-face {
+  font-family: "Redaction 50";
+  src: url("../assets/fonts/Redaction50-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Square tracks and thumbs to match the terminal frame. */
+* { scrollbar-width: thin; scrollbar-color: #929292 #181818; }
+@supports selector(::-webkit-scrollbar) {
+  * { scrollbar-width: auto; scrollbar-color: auto; }
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: #181818; }
+  ::-webkit-scrollbar-thumb { background: #929292; border: 2px solid #181818; border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: #d4d4d4; }
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #101010;
+  --text: #dedede;
+  --bright: #f4f4f4;
+  --muted: #a4a4a4;
+  --frame: #bebebe;
+  --rule: #565656;
+  --label: #c7c7c7;
+  --key: #eeeeee;
+  --emphasis: #d5d5d5;
+  --mono: Consolas, "Liberation Mono", monospace;
+  --display: "Redaction 50", Georgia, serif;
+  font: 15px/1.35 var(--mono);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+button, textarea { font: inherit; }
+button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--label);
+  cursor: pointer;
+}
+button:hover:not(:disabled) { color: var(--bright); }
+button:disabled { opacity: .52; cursor: default; }
+:focus-visible { outline: 1px dashed var(--key); outline-offset: 3px; }
+pre, code, kbd { font: inherit; }
+.app { width: min(912px, calc(100% - 36px)); margin: 29px auto; }
+.tabbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid var(--frame);
+}
+.bar-title {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  padding: 0 5px;
+  background: var(--bg);
+  color: var(--bright);
+  white-space: nowrap;
+}
+.bar-title span, .bracket, .arrow { color: var(--muted); }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px 0; }
+.tabs button { padding: 0 12px; }
+.tabs button:first-child { padding-left: 0; }
+.tabs button + button { border-left: 1px solid #6c6c6c; }
+.tabs [aria-selected="true"] { color: var(--bright); font-weight: 700; }
+.filename {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-style: italic;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: clamp(548px, calc(100dvh - 117px), 760px);
+  margin-top: 18px;
+  border: 1px solid var(--frame);
+}
+.pane {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 22px 25px;
+}
+.overview { display: flex; flex-direction: column; align-items: center; }
+.overview-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  margin: auto 0;
+  padding: 12px 0;
+}
+.identity { margin-bottom: 5px; text-align: center; }
+.identity h1 {
+  margin: 0 0 2px;
+  color: var(--bright);
+  font: 400 clamp(48px, 8vw, 76px)/1 var(--display);
+}
+.identity p { margin: 0; }
+.identity em { color: var(--key); }
+.identity .formats {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 6px 4px 0;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 13px;
+}
+.box {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 11px 9px;
+  border: 1px solid var(--rule);
+}
+.box legend {
+  margin: 0 auto;
+  padding: 0 6px;
+  color: var(--bright);
+  font-weight: 700;
+}
+.box legend span { color: var(--muted); font-weight: 400; }
+.file-box { width: min(428px, 100%); }
+.command-box { width: min(602px, 100%); }
+.file-box dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); margin: 0; gap: 1px 1ch; }
+.file-box dt { color: var(--label); }
+.file-box dd { margin: 0; overflow-wrap: anywhere; }
+.command-table, .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+.command-table th, .command-table td { padding: 0 8px 1px 0; vertical-align: top; }
+.command-table th { color: var(--bright); }
+.command-table td:first-child { width: 36%; }
+.command-table button { color: var(--emphasis); text-align: left; }
+.command-table button:hover:not(:disabled) { text-decoration: underline; }
+.keybar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transform: translateY(52%);
+}
+.keys { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 10px; padding: 0 6px; background: var(--bg); pointer-events: auto; }
+.keys span, .keys button { color: var(--text); white-space: nowrap; }
+.keys kbd { color: var(--key); }
+.keys .bracket, .keys .arrow { color: var(--muted); }
+.keys button:hover:not(:disabled) { text-decoration: underline; }
+.help-text { margin: 0; }
+.panel-title { margin: 0 0 10px; color: var(--bright); font-weight: 700; font-size: 1rem; }
+.hint { margin: 0 0 10px; color: var(--muted); }
+.help-text { color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.sql { display: flex; flex-direction: column; gap: 7px; overflow: hidden; padding: 13px 15px 15px; }
+.screen { flex: 1; min-height: 0; overflow: auto; padding: 3px 4px; font-size: 14px; }
+.screen:focus-visible { outline-offset: -2px; }
+.intro { color: var(--muted); margin: 0; }
+.entry { margin: 0 0 14px; overflow-wrap: anywhere; }
+.entry > pre { margin: 2px 0 0; color: var(--muted); white-space: pre-wrap; }
+.entry code { white-space: pre-wrap; }
+.entry > pre.error { color: #eeeeee; border-left: 2px solid #a9a9a9; padding-left: 8px; }
+.entry > pre.success { color: var(--emphasis); }
+.filename[data-dirty="true"] { color: var(--bright); }
+.prompt { color: var(--label); white-space: nowrap; }
+.result { margin-top: 6px; border: 1px solid var(--rule); }
+.grid { max-height: 340px; overflow: auto; }
+.grid:focus-visible { outline-offset: -2px; }
+.data-table th, .data-table td {
+  min-width: 70px;
+  max-width: 340px;
+  padding: 4px 8px;
+  border-bottom: 1px solid #3c3c3c;
+  vertical-align: top;
+}
+.data-table th { position: sticky; top: 0; background: #242424; color: var(--emphasis); white-space: nowrap; }
+.data-table td { white-space: pre-wrap; overflow-wrap: anywhere; }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover { background: #242424; }
+.null { color: var(--muted); font-style: italic; }
+.pagination { display: flex; align-items: baseline; gap: 3px 10px; flex-wrap: wrap; padding: 4px 8px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 12px; }
+.pagination span { margin-right: auto; }
+.pagination button:hover:not(:disabled) { text-decoration: underline; }
+form { display: flex; align-items: flex-start; gap: 8px; padding: 6px 5px 0; border-top: 1px solid var(--rule); }
+textarea {
+  flex: 1; min-width: 4ch; min-height: 23px; max-height: 8rem; resize: vertical; padding: 0 2px;
+  border: 0; background: transparent; color: var(--bright); caret-color: var(--key);
+}
+textarea::placeholder { color: var(--muted); }
+textarea:focus-visible { outline-offset: 1px; }
+.status { padding: 0 5px; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.startup-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
+.drag .frame { outline: 1px dashed var(--key); outline-offset: 4px; }
+@media (max-width: 650px) {
+  :root { font-size: 13px; }
+  .app { width: calc(100% - 20px); margin: 18px auto; }
+  .tabbar { gap: 4px; padding: 10px 8px 6px; flex-direction: column; align-items: start; }
+  .tabs button { padding: 0 8px; }
+  .filename { max-width: 100%; }
+  .frame { height: auto; min-height: 0; margin-top: 12px; }
+  .pane { padding: 12px 10px; }
+  .overview-inner { padding: 20px 0; }
+  .identity .formats { font-size: 12px; }
+  .sql { min-height: 420px; height: calc(100dvh - 130px); }
+  .keybar { position: static; transform: none; padding: 5px 2px; border-top: 1px solid var(--rule); }
+  .keys { font-size: 11px; }
+  .command-table td:first-child { width: 28%; }
+  textarea { font-size: 16px; }
+}
